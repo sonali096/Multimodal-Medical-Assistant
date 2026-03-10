@@ -1,0 +1,71 @@
+# Multimodal Medical Assistant Configuration
+
+# Project Settings
+project:
+  name: "Multimodal Medical Assistant"
+  version: "0.1.0"
+  seed: 42
+
+# Data Paths
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  models_dir: "data/models"
+
+# Model Configuration
+models:
+  text_model:
+    name: "emilyalsentzer/Bio_ClinicalBERT"
+    max_length: 512
+    batch_size: 16
+    learning_rate: 2e-5
+    num_epochs: 10
+    
+  image_model:
+    name: "resnet50"
+    pretrained: true
+    input_size: [224, 224]
+    batch_size: 32
+    learning_rate: 1e-4
+    num_epochs: 20
+    
+  multimodal_fusion:
+    fusion_type: "concatenation"  # Options: concatenation, attention, cross-attention
+    hidden_dim: 512
+    dropout: 0.3
+    batch_size: 16
+    learning_rate: 1e-4
+    num_epochs: 15
+
+# Training Settings
+training:
+  device: "cuda"  # Options: cuda, mps, cpu
+  num_workers: 4
+  gradient_accumulation_steps: 1
+  mixed_precision: true
+  save_checkpoint_every: 5
+  early_stopping_patience: 5
+
+# Evaluation Settings
+evaluation:
+  metrics:
+    - "accuracy"
+    - "f1"
+    - "auc_roc"
+    - "precision"
+    - "recall"
+  test_split: 0.2
+  val_split: 0.1
+
+# API Settings
+api:
+  host: "0.0.0.0"
+  port: 8000
+  reload: true
+  log_level: "info"
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/training.log"

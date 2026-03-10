@@ -1,0 +1,93 @@
+# Execution Instructions for Multimodal Medical Assistant
+
+## Quick Start - Run the application
+
+### 1. API Server Mode (Default)
+python main.py --mode api --port 8000
+
+### 2. Demo Mode (Quick demonstration with sample data)
+python main.py --mode demo
+
+### 3. Training Mode
+python main.py --mode train --config config.yaml
+
+### 4. Prediction Mode (Single prediction)
+python main.py --mode predict --text "Patient presents with fever and cough" --output ./my_prediction.json
+
+### 5. Evaluation Mode
+python main.py --mode evaluate --config config.yaml
+
+## Detailed Usage Examples
+
+### Example 1: Start API Server on custom port
+python main.py --mode api --host 0.0.0.0 --port 5000
+
+### Example 2: Make a prediction with text only
+python main.py --mode predict --text "Patient has bilateral lung infiltrates, fever, and respiratory distress"
+
+### Example 3: Make a prediction with text and image
+python main.py --mode predict --text "Chest pain and shortness of breath" --image ./chest_xray.jpg
+
+### Example 4: Train model with custom config
+python main.py --mode train --config ./my_config.yaml
+
+### Example 5: Use API key from environment variable
+export API_KEY="your_api_key_here"
+python main.py --mode api
+
+### Example 6: Use API key as parameter
+python main.py --mode api --api-key "your_api_key_here"
+
+## System Requirements
+
+- Python 3.9 or higher
+- Virtual environment activated (.venv)
+- All dependencies installed (see requirements.txt)
+
+## Installation
+
+1. Create virtual environment:
+   python -m venv .venv
+
+2. Activate virtual environment:
+   source .venv/bin/activate  # On macOS/Linux
+   .venv\Scripts\activate     # On Windows
+
+3. Install dependencies:
+   pip install -r requirements.txt
+
+## Project Structure
+
+main.py           - Main entry point (START HERE)
+train.py          - Training module
+inference.py      - Prediction/inference module
+evaluate.py       - Model evaluation module
+demo.py           - Demo with sample scenarios
+api.py            - FastAPI REST API
+models.py         - Model architectures
+utils.py          - Utility functions
+config.yaml       - Configuration file
+
+## Default Configuration
+
+The system uses config.yaml for settings. If not found, uses defaults:
+- Number of classes: 5
+- Fusion type: concatenation
+- Learning rate: 1e-4
+- Batch size: 16
+- Device: CPU (auto-detects CUDA/MPS if available)
+
+## Output Files
+
+- ./predictions.json      - Prediction results
+- ./results/*.json        - Evaluation metrics
+- ./logs/*.log           - Training logs
+- ./checkpoints/*.pth    - Model checkpoints
+
+## Notes
+
+1. All files are in the current directory (no subdirectories required for execution)
+2. Can be run in terminal without GUI
+3. API keys should be passed as parameters or environment variables
+4. Code is fully commented for clarity
+5. Works with CPU (GPU optional)
